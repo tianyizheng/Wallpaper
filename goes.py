@@ -2,6 +2,7 @@
 # -*- coding=utf-8 -*-
 
 import cv2
+import time
 import os
 import subprocess
 from fake_useragent import UserAgent
@@ -27,7 +28,9 @@ def saveImgToDevice(imgUrl):
 
 def set_desktop_background(filename):
     cropImage(filename,0,904,2260,3616)
+    time.sleep(1.5)
     subprocess.Popen(SCRIPT%filename, shell=True)
+    time.sleep(1.5)
     subprocess.check_call("killall Dock", shell=True)
 
 def cropImage(filename, top_left_y, top_left_x, height, width):
