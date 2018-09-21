@@ -7,7 +7,7 @@ import random
 import json
 import time
 import subprocess
-
+from fake_useragent import UserAgent
 import requests
 from bs4 import BeautifulSoup
 
@@ -19,9 +19,9 @@ END"""
 
 sdUrl = 'http://simpledesktops.com/browse/'
 sdRandomPage = str(random.randint(1, 49))
-sdHeaders = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36'}
 
+ua = UserAgent(fallback='Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36')
+sdHeaders = {'User-Agent':str(ua.chrome)}
 imgpath = '/assets/imgbuffer.png'
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -63,7 +63,7 @@ def set_desktop_background(filename):
 def main():
     sdUrl = getImage()
     saveImgToDevice(sdUrl)
-    set_desktop_background(dir_path + imgpath)
+    # set_desktop_background(dir_path + imgpath)
 
 
 if __name__ == '__main__':

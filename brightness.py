@@ -4,7 +4,7 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 
-imgpath = '/assets/rubik_cube.png'
+imgpath = '/assets/imgbuffer.png'
 dir_path = os.path.dirname(os.path.realpath(__file__))
 imgName = dir_path + imgpath
 
