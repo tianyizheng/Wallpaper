@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding=utf-8 -*-
 
-
+import cv2
 import os
-import random
-import json
-import time
 import subprocess
 from fake_useragent import UserAgent
 import requests
-from bs4 import BeautifulSoup
 
 SCRIPT = """/usr/bin/osascript<<END
 tell application "Finder"
@@ -30,9 +26,14 @@ def saveImgToDevice(imgUrl):
         handler.write(imgData)
 
 def set_desktop_background(filename):
+    cropImage(filename,0,904,2260,3616)
     subprocess.Popen(SCRIPT%filename, shell=True)
     subprocess.check_call("killall Dock", shell=True)
 
+def cropImage(filename, top_left_y, top_left_x, height, width):
+    img = cv2.imread(filename)
+    crop_img = img[top_left_y:top_left_y+height, top_left_x:top_left_x+width]
+    cv2.imwrite(filename, crop_img)
 
 def main():
     saveImgToDevice(sdUrl)

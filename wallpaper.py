@@ -4,8 +4,6 @@
 
 import os
 import random
-import json
-import time
 import subprocess
 from fake_useragent import UserAgent
 import requests

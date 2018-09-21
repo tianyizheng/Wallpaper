@@ -2,7 +2,6 @@ import os
 import cv2
 import math
 import numpy as np
-from matplotlib import pyplot as plt
 
 imgpath = '/assets/imgbuffer.png'
 dir_path = os.path.dirname(os.path.realpath(__file__))

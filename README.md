@@ -11,4 +11,5 @@ This script grabs a random image from [SimpleDesktops](http://simpledesktops.com
 
 ## Ackowledgement
 Spencer Woo's [original script](https://github.com/spencerwoo98/spencer-simple-desktop-api) for his blog.
+
 [CronScheduler](https://unix.stackexchange.com/questions/363376/how-do-i-add-remove-cron-jobs-by-script)
