@@ -1,0 +1,1 @@
+curl -u tianyizheng:Zty549926 'https://nextcloud.tianyeah.me/remote.php/dav/files/tianyizheng/Photos/imgbuffer.jpg' -X PUT --data-binary @"imgbuffer.png"
