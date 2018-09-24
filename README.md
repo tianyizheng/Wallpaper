@@ -1,5 +1,5 @@
 # Wallpaper
-I've long wanted a lightweight tool to change my wallpaper automatically without taking up much space. This is a collection of python scripts that can be added to the crontab to accomplish that.
+I've long wanted a lightweight tool to change my wallpaper automatically without taking up much space. This is a collection of python scripts that can be added to the crontab to download them locally or save them on your cloud drive.
 
 # Usage
 `sh wallpaper_scheduler add goes.py` or `sh wallpaper_scheduler add simpledesktop.py`
