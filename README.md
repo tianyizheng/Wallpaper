@@ -1,13 +1,21 @@
 # Wallpaper
-I've long wanted a lightweight tool to change my wallpaper automatically without taking up much space.
+I've long wanted a lightweight tool to change my wallpaper automatically without taking up much space. This is a collection of python scripts that can be added to the crontab to accomplish that.
 
-This script grabs a random image from [SimpleDesktops](http://simpledesktops.com/) and saves to a local buffer. It will override the same image everytime. You can put `python wallpaper.py` in your crontab to automate the changing.
+# Usage
+`sh wallpaper_scheduler add goes.py` or `sh wallpaper_scheduler add simpledesktop.py`
 
-## Next Step
-1. I want a script that pre-calculates the "perceived brightness" and saves them locally in sqlite. This way I can skip the bright ones at night.
+`simpleDesktop.py` grabs a random image from [SimpleDesktops](http://simpledesktops.com/) and saves to a local buffer. It will override the same image everytime.
 
-2. I should upload the new wallpapers to my nextcloud drive.
+`goes.py` grabs the current image of the GOES-16 satellite from [NOAA.gov](noaa.gov), crops it to 16:9 and centers around the atlantic coast.
 
+`batchJob.py` is a script that uses `futures` to upload collections of images from [SimpleDesktops](http://simpledesktops.com/) to your NextCloud drive.
+
+## Next Steps
+- [ ] Pre-calcualte brightness of all images, stores to sqlite and analyze
+- [ ] Update wallpaper from NextCloud
+- [x] Upload in batches to NextCloud
+- [x] Calcualte the brightness of one image
+- [x] Near real time image of the earth
 
 ## Ackowledgement
 Spencer Woo's [original script](https://github.com/spencerwoo98/spencer-simple-desktop-api) for his blog.

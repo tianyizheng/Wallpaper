@@ -10,8 +10,9 @@ import requests
 from bs4 import BeautifulSoup
 
 SCRIPT = """/usr/bin/osascript<<END
-tell application "Finder"
-set desktop picture to POSIX file "%s"
+tell application "System Events"
+tell current desktop
+set picture to POSIX file "%s"
 end tell
 END"""
 
