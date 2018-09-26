@@ -12,7 +12,7 @@ import simpleDesktop
 destination = '----------YOUR NECTCLOUD DRIVE------'
 suffix = '.png'
 
-sdUrl = 'http://simpledesktops.com/browse/'
+sdUrl = simpleDesktop.sdUrl
 
 ua = UserAgent(fallback='Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36')
 sdHeaders = {'User-Agent':str(ua.chrome)}
@@ -26,7 +26,7 @@ def usage():
     print("       python toNextCloud.py cloud 1 username password")
     print("       python toNextCloud.py cloud all username password")
 def parseHtml(pageNum):
-    sdResponse = requests.get(sdUrl + pageNum, headers=sdHeaders)
+    sdResponse = requests.get(sdUrl + str(pageNum), headers=sdHeaders)
     sdHtmlContent = sdResponse.content
     sdSoup = BeautifulSoup(sdHtmlContent, 'html.parser', from_encoding='utf-8')
     sdItems = sdSoup.find_all('img')
@@ -100,12 +100,17 @@ def helperLocal(pageNum):
 
 def main():
     if len(sys.argv) == 3 and sys.argv[1] == 'local':
-        if isinstance(sys.argv[2], int):
+        try:
+            int(sys.argv[2])
             helperLocal(sys.argv[2])
             exit(0)
-        elif sys.argv[2] == 'all':
-            for i in range(49):
-                helperLocal(i)
+        except ValueError:
+            if sys.argv[2] == 'all':
+                for i in range(49):
+                    helperLocal(sys.argv[2])
+                    exit(0)
+            else:
+                usage()
                 exit(0)
         else:
             usage()
