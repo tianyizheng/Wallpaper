@@ -9,10 +9,10 @@ from bs4 import BeautifulSoup
 
 import simpleDesktop
 
-destination = '----------YOUR NECTCLOUD DRIVE------'
+destination = '-----your next cloud--------'
 suffix = '.png'
 
-sdUrl = simpleDesktop.sdUrl
+sdUrl = 'http://simpledesktops.com/browse/'
 
 ua = UserAgent(fallback='Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36')
 sdHeaders = {'User-Agent':str(ua.chrome)}
@@ -22,11 +22,11 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 def usage():
     #need a better way to determine what the user wants to download
-    print("Usage: python toNextCloud.py local 1")
-    print("       python toNextCloud.py cloud 1 username password")
-    print("       python toNextCloud.py cloud all username password")
+    print("Usage: python batchJob.py local 1")
+    print("       python batchJob.py cloud 1 username password")
+    print("       python batchJob.py cloud all username password")
 def parseHtml(pageNum):
-    sdResponse = requests.get(sdUrl + str(pageNum), headers=sdHeaders)
+    sdResponse = requests.get(sdUrl + pageNum, headers=sdHeaders)
     sdHtmlContent = sdResponse.content
     sdSoup = BeautifulSoup(sdHtmlContent, 'html.parser', from_encoding='utf-8')
     sdItems = sdSoup.find_all('img')
@@ -37,54 +37,54 @@ def saveImgToDevice(imgUrl, fileName):
     with open(fileName + suffix, 'wb') as handler:
         handler.write(imgData)
 
-def downloadLocally(sdImageUrls, rootFolder):
-    indx = 0
-    while indx < len(sdImageUrls):
-        imagePath = rootFolder + '/' + str(indx)
-        print('Downloading image #{imgName}\n'.format(imgName=imagePath))
-        saveImgToDevice(sdImageUrls[indx], imagePath)
-        indx += 1
-        print('Pausing...\n')
-        time.sleep(0.5)
+# def downloadLocally(sdImageUrls, rootFolder):
+#     indx = 0
+#     while indx < len(sdImageUrls):
+#         imagePath = rootFolder + '/' + str(indx)
+#         print('Downloading image #{imgName}\n'.format(imgName=imagePath))
+#         saveImgToDevice(sdImageUrls[indx], imagePath)
+#         indx += 1
+#         print('Pausing...\n')
+#         time.sleep(0.5)
 
-def multithreadLocally(sdImageUrl, indx, rootFolder):
-    imagePath = rootFolder + '/' + str(indx)
+def multithreadLocally(sdImageUrl, title, rootFolder):
+    imagePath = rootFolder + '/' + title
     saveImgToDevice(sdImageUrls[indx], imagePath)
     print('Done with image #{imgName}\n'.format(imgName=imagePath))
     time.sleep(0.5)
 
-def uploadToCloud(sdImageUrls, pageNum, username, password):
-    rFolder = destination+str(pageNum)+'/'
-    indx = 0
-    requests.request('MKCOL', rFolder, auth=HTTPBasicAuth(username, password))
-    while indx < len(sdImageUrls):
-        print('Grabbing image #{imgName}'.format(imgName=indx))
-        imgData = requests.get(sdImageUrls[indx]).content
-        print('Uploading...')
-        r = requests.put(rFolder+str(indx)+suffix, auth=HTTPBasicAuth(username, password), data=imgData)
-        print r.status_code
-        indx += 1
-        print('Pausing...\n')
-        time.sleep(2)
+# def uploadToCloud(sdImageUrls, pageNum, username, password):
+#     rFolder = destination+str(pageNum)+'/'
+#     indx = 0
+#     requests.request('MKCOL', rFolder, auth=HTTPBasicAuth(username, password))
+#     while indx < len(sdImageUrls):
+#         print('Grabbing image #{imgName}'.format(imgName=indx))
+#         imgData = requests.get(sdImageUrls[indx]).content
+#         print('Uploading...')
+#         r = requests.put(rFolder+str(indx)+suffix, auth=HTTPBasicAuth(username, password), data=imgData)
+#         print r.status_code
+#         indx += 1
+#         print('Pausing...\n')
+#         time.sleep(2)
 
-def multithreadToCloud(sdImageUrl, indx, rFolder, username, password):
-    target = rFolder+str(indx)+'.png'
+def multithreadToCloud(sdImageUrl, title, rFolder, username, password):
+    target = rFolder+title+'.png'
     imgData = requests.get(sdImageUrl).content
     r = requests.put(target, auth=HTTPBasicAuth(username, password), data=imgData)
     if r.status_code == requests.codes.created :
-        print('Done with image #{imgName}'.format(imgName=indx))
+        print('Done with image #{imgName}'.format(imgName=title))
     else:
-        print('Error with image #{imgName}'.format(imgName=indx))
+        print('Error with image #{imgName}'.format(imgName=title))
     time.sleep(0.5)
 
 def helperCloud(pageNum, username, password):
     sdImgs = parseHtml(pageNum)
-    sdImageUrls = simpleDesktop.getImgUrl(sdImgs)
+    sdImageUrls = simpleDesktop.getImgUrlWithTitle(sdImgs)
     rFolder = destination+str(pageNum)+'/'
     requests.request('MKCOL', rFolder, auth=HTTPBasicAuth(username, password))
     with concurrent.futures.ThreadPoolExecutor(max_workers=7) as executor:
-        for indx in range(len(sdImageUrls)):
-            executor.submit(multithreadToCloud, sdImageUrls[indx], indx, rFolder, username, password)
+        for title in sdImageUrls.keys():
+            executor.submit(multithreadToCloud, sdImageUrls[title], title, rFolder, username, password)
     # uploadToCloud(sdImageUrls, pageNum, sys.argv[3], sys.argv[4])
 
 
@@ -93,10 +93,10 @@ def helperLocal(pageNum):
     rootFolder = dir_path+'/assets/'+str(pageNum)
     if not os.path.isdir(rootFolder):
         os.makedirs(rootFolder)
-    sdImageUrls = simpleDesktop.getImgUrl(sdImgs)
+    sdImageUrls = simpleDesktop.getImgUrlWithTitle(sdImgs)
     with concurrent.futures.ThreadPoolExecutor(max_workers=7) as executor:
-            for indx in range(len(sdImageUrls)):
-                executor.submit(multithreadLocally, sdImageUrls[indx], indx, rootFolder)
+            for title in sdImageUrls.keys():
+                executor.submit(multithreadLocally, sdImageUrls[title], title, rootFolder)
 
 def main():
     if len(sys.argv) == 3 and sys.argv[1] == 'local':
@@ -107,7 +107,7 @@ def main():
         except ValueError:
             if sys.argv[2] == 'all':
                 for i in range(49):
-                    helperLocal(sys.argv[2])
+                    helperLocal(str(i))
                     exit(0)
             else:
                 usage()
@@ -125,7 +125,7 @@ def main():
         except ValueError:
             if sys.argv[2] == 'all':
                 for i in range(49):
-                    helperCloud(i, username, password)
+                    helperCloud(str(i), username, password)
                     exit(0)
             else:
                 usage()

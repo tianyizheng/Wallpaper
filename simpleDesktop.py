@@ -41,6 +41,15 @@ def getImgUrl(allImgs):
             imgUrl.append(sdUserUploadLinks)
     return imgUrl
 
+def getImgUrlWithTitle(allImgs):
+    imgUrl = {}
+    for eachImg in allImgs:
+        sdLinks = eachImg.get('src')
+        sdTitle = eachImg.get('title')
+        sdUserUploadLinks = sdLinks.split('.295x184_q100')[0]
+        if sdUserUploadLinks.rfind('uploads') != -1:
+            imgUrl[sdTitle] = sdUserUploadLinks
+    return imgUrl
 
 def getImage():
     sdImgs = parseHtml()
