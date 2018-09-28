@@ -47,17 +47,17 @@ def create_score(conn, pageNum, data):
     except Exception as e:
         print(e)
 
-def dummy():
-    imgData = requests.get("http://static.simpledesktops.com/uploads/desktops/2017/02/28/GeoShapes_2880x1800.png.625x385_q100.png").content
-    bin_data = io.BytesIO(imgData)
-    file_bytes = np.asarray(bytearray(bin_data.read()), dtype=np.uint8)
-    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    param = [0.114, 0.587, 0.299]
-    result = 0
-    for i in range(3):
-        histr = cv2.calcHist([img],[i],None,[256],[0,256])
-        result += np.argmax(histr)**2 * param[i]
-    print result
+# def dummy():
+#     imgData = requests.get("http://static.simpledesktops.com/uploads/desktops/2017/02/28/GeoShapes_2880x1800.png.625x385_q100.png").content
+#     bin_data = io.BytesIO(imgData)
+#     file_bytes = np.asarray(bytearray(bin_data.read()), dtype=np.uint8)
+#     img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+#     param = [0.114, 0.587, 0.299]
+#     result = 0
+#     for i in range(3):
+#         histr = cv2.calcHist([img],[i],None,[256],[0,256])
+#         result += np.argmax(histr)**2 * param[i]
+#     print result
 
 def analyze(imgUrl, title, pageNum):
     imgData = requests.get(imgUrl).content

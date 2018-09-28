@@ -2,3 +2,4 @@ bs4
 matplotlib
 numpy
 futures
+fake_useragent
