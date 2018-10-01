@@ -11,7 +11,7 @@ I've long wanted a lightweight tool to change my wallpaper automatically without
 `batchJob.py` is a script that uses `futures` to upload collections of images from [SimpleDesktops](http://simpledesktops.com/) to your NextCloud drive.
 
 ## Next Steps
-- [ ] Pre-calcualte brightness of all images, stores to sqlite and analyze
+- [x] Pre-calcualte brightness of all images, stores to sqlite and analyze
 - [ ] Update wallpaper from NextCloud
 - [x] Upload in batches to NextCloud
 - [x] Calcualte the brightness of one image
