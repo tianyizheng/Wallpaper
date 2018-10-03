@@ -12,10 +12,11 @@ I've long wanted a lightweight tool to change my wallpaper automatically without
 
 ## Next Steps
 - [x] Pre-calcualte brightness of all images, stores to sqlite and analyze
-- [ ] Update wallpaper from NextCloud
+- [x] Update wallpaper from NextCloud
 - [x] Upload in batches to NextCloud
 - [x] Calcualte the brightness of one image
 - [x] Near real time image of the earth
+- [ ] Update wallpaper based on perceived brightness
 
 ## Ackowledgement
 Spencer Woo's [original script](https://github.com/spencerwoo98/spencer-simple-desktop-api) for his blog.
