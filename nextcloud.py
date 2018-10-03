@@ -1,9 +1,11 @@
 import os
+import urllib
 import random
 import subprocess
 import sqlite3
 import requests
 from bs4 import BeautifulSoup
+from requests.auth import HTTPBasicAuth
 
 SCRIPT = """/usr/bin/osascript<<END
 tell application "System Events"
@@ -12,14 +14,9 @@ set picture to POSIX file "%s"
 end tell
 END"""
 
-destination = '-----your next cloud--------'
+destination = '---------your next cloud folder url--------------'
 suffix = '.png'
 
-sdUrl = 'http://simpledesktops.com/browse/'
-
-ua = UserAgent(fallback='Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36')
-sdHeaders = {'User-Agent':str(ua.chrome)}
-imgpath = '/assets/'
 dir_path = os.path.dirname(os.path.realpath(__file__))
 database = dir_path + "/store.db"
 
@@ -32,25 +29,20 @@ def create_connection(db_file):
         exit(1)
 
 def getImgUrl():
-    imgUrl = []
-    for eachImg in allImgs:
-        sdLinks = eachImg.get('src')
-        sdUserUploadLinks = sdLinks.split('.295x184_q100')[0]
-        if sdUserUploadLinks.rfind('uploads') != -1:
-            imgUrl.append(sdUserUploadLinks)
-    return imgUrl
-
-def getImage():
-    conn = create_connection()
-
-    sdImgs = parseHtml()
-    sdImageUrls = getImgUrl(sdImgs)
-    randomImage = random.randint(0, len(sdImageUrls) - 1)
-    return sdImageUrls[randomImage]
+    try:
+        conn = create_connection(database)
+        with conn:
+            sql = '''SELECT imgID FROM page1 ORDER BY RANDOM() LIMIT 1;'''
+            cur = conn.cursor()
+            filename = str(cur.execute(sql).fetchall()[0][0])
+            filename = urllib.quote(filename)
+            return destination + filename + ".png"
+    except Exception as e:
+        print(e)
 
 def saveImgToDevice(imgUrl):
-    imgData = requests.get(imgUrl).content
-    with open(dir_path + imgpath, 'wb') as handler:
+    imgData = requests.get(imgUrl, auth=HTTPBasicAuth("username", "password")).content
+    with open(dir_path + "/test.png", 'wb') as handler:
         handler.write(imgData)
 
 def set_desktop_background(filename):
@@ -59,9 +51,10 @@ def set_desktop_background(filename):
 
 
 def main():
-    sdUrl = getImage()
-    saveImgToDevice(sdUrl)
-    set_desktop_background(dir_path + imgpath)
+    urlString = getImgUrl()
+    print urlString
+    saveImgToDevice(urlString)
+    set_desktop_background(dir_path + "/test.png")
 
 
 if __name__ == '__main__':
