@@ -1,6 +1,8 @@
 # Wallpaper
 I've long wanted a lightweight tool to change my wallpaper automatically without taking up much space. This is a collection of python scripts that can be added to the crontab to download them locally or save them on your cloud drive.
 
+Inspired by the Mojave system's dynamic wallpaper, these scripts will have the added functionality to select wallpaper based on your local time.
+
 # Usage
 `sh wallpaper_scheduler add goes.py` or `sh wallpaper_scheduler add simpledesktop.py`
 
