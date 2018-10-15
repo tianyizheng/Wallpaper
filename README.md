@@ -18,7 +18,7 @@ Inspired by the Mojave system's dynamic wallpaper, these scripts will have the a
 - [x] Upload in batches to NextCloud
 - [x] Calcualte the brightness of one image
 - [x] Near real time image of the earth
-- [ ] Update wallpaper based on perceived brightness
+- [x] Update wallpaper based on perceived brightness
 
 ## Ackowledgement
 Spencer Woo's [original script](https://github.com/spencerwoo98/spencer-simple-desktop-api) for his blog.
