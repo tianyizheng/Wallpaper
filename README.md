@@ -19,6 +19,7 @@ Inspired by the Mojave system's dynamic wallpaper, these scripts will have the a
 - [x] Calcualte the brightness of one image
 - [x] Near real time image of the earth
 - [x] Update wallpaper based on perceived brightness
+- [ ] Deploy serverless function to return an image based on time of request
 
 ## Ackowledgement
 Spencer Woo's [original script](https://github.com/spencerwoo98/spencer-simple-desktop-api) for his blog.
