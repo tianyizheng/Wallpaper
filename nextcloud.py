@@ -1,6 +1,7 @@
 import os
 import urllib
 import random
+import datetime
 import subprocess
 import sqlite3
 import requests
@@ -14,7 +15,7 @@ set picture to POSIX file "%s"
 end tell
 END"""
 
-destination = '---------your next cloud folder url--------------'
+destination = '--------your next cloud url ------------'
 suffix = '.png'
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -28,11 +29,20 @@ def create_connection(db_file):
         print(e)
         exit(1)
 
-def getImgUrl():
+def randomTable(conn):
+    with conn:
+        sql = '''SELECT name FROM sqlite_master WHERE type='table';'''
+        cur = conn.cursor()
+        tables = cur.execute(sql).fetchall()
+        num = random.randint(0,len(tables))
+        return num
+
+def getImgUrl(sign):
     try:
         conn = create_connection(database)
+        pageNum = randomTable(conn)
         with conn:
-            sql = '''SELECT imgID FROM page1 ORDER BY RANDOM() LIMIT 1;'''
+            sql = '''SELECT imgID FROM page{0} WHERE SCORE {1} 10000 ORDER BY RANDOM() LIMIT 1;'''.format(pageNum, sign)
             cur = conn.cursor()
             filename = str(cur.execute(sql).fetchall()[0][0])
             filename = urllib.quote(filename)
@@ -51,10 +61,13 @@ def set_desktop_background(filename):
 
 
 def main():
-    urlString = getImgUrl()
-    print urlString
+    currentHour = datetime.datetime.now().hour
+    if currentHour > 19 or currentHour < 9:
+        urlString = getImgUrl('<')
+    else:
+        urlString = getImgUrl('>')
     saveImgToDevice(urlString)
-    set_desktop_background(dir_path + "/test.png")
+    set_desktop_background(dir_path + imgpath)
 
 
 if __name__ == '__main__':
