@@ -84,9 +84,9 @@ def main():
             exit(0)
         except ValueError:
             if sys.argv[1] == 'all':
-                for i in range(49):
+                for i in range(5,49):
                     submitAnalyzeJobs(str(i))
-                    exit(0)
+                exit(0)
             else:
                 usage()
                 exit(0)

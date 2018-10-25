@@ -4,13 +4,20 @@ I've long wanted a lightweight tool to change my wallpaper automatically without
 Inspired by the Mojave system's dynamic wallpaper, these scripts will have the added functionality to select wallpaper based on your local time.
 
 # Usage
+Ideally you would execute the scripts below sequentially.
+
+`brightness.py` analyzes the perceived brightness of all images from SimpleDesktops and saves the score to a local sqlite database.
+
+`batchJob.py` is a script that uses `futures` to upload collections of images from [SimpleDesktops](http://simpledesktops.com/) to your NextCloud drive.
+
+`nextcloud.py` grabs a image suitable for your local time from the database and downloads it to your local machine from your cloud hosting.
+
+# Additional Usage
 `sh wallpaper_scheduler add goes.py` or `sh wallpaper_scheduler add simpledesktop.py`
 
 `simpleDesktop.py` grabs a random image from [SimpleDesktops](http://simpledesktops.com/) and saves to a local buffer. It will override the same image everytime.
 
 `goes.py` grabs the current image of the GOES-16 satellite from [NOAA.gov](noaa.gov), crops it to 16:9 and centers around the atlantic coast.
-
-`batchJob.py` is a script that uses `futures` to upload collections of images from [SimpleDesktops](http://simpledesktops.com/) to your NextCloud drive.
 
 ## Next Steps
 - [x] Pre-calcualte brightness of all images, stores to sqlite and analyze
@@ -19,8 +26,10 @@ Inspired by the Mojave system's dynamic wallpaper, these scripts will have the a
 - [x] Calcualte the brightness of one image
 - [x] Near real time image of the earth
 - [x] Update wallpaper based on perceived brightness
+- [ ] Store original url in sqlite
 - [ ] Deploy serverless function to return an image based on time of request
 - [ ] Add unsplash support
+
 ## Ackowledgement
 Spencer Woo's [original script](https://github.com/spencerwoo98/spencer-simple-desktop-api) for his blog.
 
