@@ -39,11 +39,20 @@ def create_table(pageNum):
         print(e)
 
 def create_score(conn, pageNum, data):
-    sql = ''' INSERT INTO page{0}(imgId,score)
-              VALUES(?,?) '''.format(pageNum)
+    sql = ''' INSERT INTO page{0}(imgId,score,url)
+              VALUES(?,?,?) '''.format(pageNum)
     try:
         cur = conn.cursor()
         cur.execute(sql, data)
+    except Exception as e:
+        print(e)
+# 
+def update_score(conn, pageNum, url, Id):
+    sql = ''' UPDATE page{0} SET url = '{1}' WHERE
+              imgId = '{2}' '''.format(pageNum, url, Id)
+    try:
+        cur = conn.cursor()
+        cur.execute(sql)
     except Exception as e:
         print(e)
 
@@ -60,7 +69,8 @@ def analyze(imgUrl, title, pageNum):
     try:
         conn = create_connection(database)
         with conn:
-            create_score(conn, pageNum, (title,result))
+            create_score(conn, pageNum, (title,result,imgUrl))
+            # update_score(conn, pageNum, imgUrl, title)
     except Exception as e:
         print(e)
 
@@ -70,7 +80,7 @@ def submitAnalyzeJobs(pageNum):
       exit(1)
     sdImgs = batchJob.parseHtml(pageNum)
     sdImageUrls = simpleDesktop.getImgUrlWithTitle(sdImgs)
-    create_table(pageNum)
+    # create_table(pageNum)
     with concurrent.futures.ThreadPoolExecutor(max_workers=7) as executor:
             for title in sdImageUrls.keys():
                 executor.submit(analyze, sdImageUrls[title], title, pageNum)
