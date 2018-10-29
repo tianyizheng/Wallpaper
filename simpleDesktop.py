@@ -7,8 +7,9 @@ from bs4 import BeautifulSoup
 
 SCRIPT = """/usr/bin/osascript<<END
 tell application "System Events"
-tell current desktop
+tell every desktop
 set picture to POSIX file "%s"
+end tell
 end tell
 END"""
 

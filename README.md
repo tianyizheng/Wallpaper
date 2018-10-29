@@ -13,7 +13,7 @@ Ideally you would execute the scripts below sequentially.
 `nextcloud.py` grabs a image suitable for your local time from the database and downloads it to your local machine from your cloud hosting.
 
 # Additional Usage
-`sh wallpaper_scheduler add goes.py` or `sh wallpaper_scheduler add simpledesktop.py`
+`sh wallpaper_scheduler add goes.py` or `sh wallpaper_scheduler add applyWallpaper.py`
 
 `simpleDesktop.py` grabs a random image from [SimpleDesktops](http://simpledesktops.com/) and saves to a local buffer. It will override the same image everytime.
 

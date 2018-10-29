@@ -46,13 +46,30 @@ def create_score(conn, pageNum, data):
         cur.execute(sql, data)
     except Exception as e:
         print(e)
-# 
-def update_score(conn, pageNum, url, Id):
-    sql = ''' UPDATE page{0} SET url = '{1}' WHERE
-              imgId = '{2}' '''.format(pageNum, url, Id)
+
+def clean_table(conn, pageNum):
+    sql = '''DELETE FROM page{0} WHERE url is NULL'''.format(pageNum)
     try:
         cur = conn.cursor()
         cur.execute(sql)
+    except Exception as e:
+        print(e)
+
+def create_or_update_score(conn, pageNum, url, title, score):
+    sql_find = '''SELECT url FROM page{0} WHERE imgId = ?'''.format(pageNum)
+    sql_update = ''' UPDATE page{0} SET url = '{1}' WHERE
+              imgId = '{2}' '''.format(pageNum, url, title)
+    sql_insert = ''' INSERT INTO page{0}(imgId,score,url)
+              VALUES(?,?,?) '''.format(pageNum)
+    try:
+        cur = conn.cursor()
+        cur.execute(sql_find, (title,))
+        data = cur.fetchall()
+        if len(data) == 0:
+            cur.execute(sql_insert, (title,score,url))
+        elif data[0] and data[0][0] is None:
+            print((title,url))
+            cur.execute(sql_update)
     except Exception as e:
         print(e)
 
@@ -69,8 +86,9 @@ def analyze(imgUrl, title, pageNum):
     try:
         conn = create_connection(database)
         with conn:
-            create_score(conn, pageNum, (title,result,imgUrl))
-            # update_score(conn, pageNum, imgUrl, title)
+            # create_score(conn, pageNum, (title,result,imgUrl))
+            create_or_update_score(conn, pageNum, imgUrl, title, result)
+            clean_table(conn, pageNum)
     except Exception as e:
         print(e)
 
@@ -94,7 +112,7 @@ def main():
             exit(0)
         except ValueError:
             if sys.argv[1] == 'all':
-                for i in range(5,49):
+                for i in range(1,49):
                     submitAnalyzeJobs(str(i))
                 exit(0)
             else:
