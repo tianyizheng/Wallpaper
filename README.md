@@ -26,7 +26,7 @@ Ideally you would execute the scripts below sequentially.
 - [x] Calcualte the brightness of one image
 - [x] Near real time image of the earth
 - [x] Update wallpaper based on perceived brightness
-- [ ] Store original url in sqlite
+- [x] Store original url in sqlite
 - [ ] Deploy serverless function to return an image based on time of request
 - [ ] Add unsplash support
 
