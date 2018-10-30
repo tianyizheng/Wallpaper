@@ -3,14 +3,21 @@ I've long wanted a lightweight tool to change my wallpaper automatically without
 
 Inspired by the Mojave system's dynamic wallpaper, these scripts will have the added functionality to select wallpaper based on your local time.
 
-# Usage
-Ideally you would execute the scripts below sequentially.
+# Use With Cloud Storage
+Execute the scripts below sequentially.
 
 `brightness.py` analyzes the perceived brightness of all images from SimpleDesktops and saves the score to a local sqlite database.
 
 `batchJob.py` is a script that uses `futures` to upload collections of images from [SimpleDesktops](http://simpledesktops.com/) to your NextCloud drive.
 
 `nextcloud.py` grabs a image suitable for your local time from the database and downloads it to your local machine from your cloud hosting.
+
+# Use Locally
+The only difference would be that now you wouldn't be having a collection and relies on SimpleDesktop's hosting to be up.
+
+`brightness.py` analyzes the perceived brightness of all images from SimpleDesktops and saves the score to a local sqlite database.
+
+`applyWallpaper.py` grabs a image suitable for your local time from the database and downloads it to your local machine from SimpleDesktop.
 
 # Additional Usage
 `sh wallpaper_scheduler add goes.py` or `sh wallpaper_scheduler add applyWallpaper.py`

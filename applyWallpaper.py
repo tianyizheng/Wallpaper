@@ -3,11 +3,11 @@ import datetime
 import random
 import sqlite3
 import brightness
-import simpleDesktop
+from utils import saveAndSetBackground
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 database = dir_path + "/store.db"
-set_score = 7000
+set_score = 4500
 
 def selectImage(imgList):
   length = len(imgList)
@@ -43,8 +43,8 @@ def getImageFromDb():
 
 def main():
     imgUrl = getImageFromDb()
-    simpleDesktop.saveImgToDevice(imgUrl)
-    simpleDesktop.set_desktop_background(dir_path + simpleDesktop.imgpath)
+    saveAndSetBackground(imgUrl)
+
 
 
 if __name__ == '__main__':

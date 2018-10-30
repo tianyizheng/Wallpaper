@@ -50,7 +50,7 @@ def getImgUrl(sign):
     except Exception as e:
         print(e)
 
-def saveImgToDevice(imgUrl):
+def saveImgToDeviceWithAuth(imgUrl):
     imgData = requests.get(imgUrl, auth=HTTPBasicAuth("username", "password")).content
     with open(dir_path + "/test.png", 'wb') as handler:
         handler.write(imgData)
@@ -66,7 +66,7 @@ def main():
         urlString = getImgUrl('<')
     else:
         urlString = getImgUrl('>')
-    saveImgToDevice(urlString)
+    saveImgToDeviceWithAuth(urlString)
     set_desktop_background(dir_path + imgpath)
 
 

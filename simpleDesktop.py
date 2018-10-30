@@ -1,9 +1,14 @@
 import os
 import random
 import subprocess
-from fake_useragent import UserAgent
 import requests
+from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
+from utils import saveAndSetBackground
+
+# This script gets a random image from SimpleDesktop
+# saves it locally under the assets folder
+# and changes your background to that
 
 SCRIPT = """/usr/bin/osascript<<END
 tell application "System Events"
@@ -55,20 +60,9 @@ def getImage():
     return sdImageUrls[randomImage]
 
 
-def saveImgToDevice(imgUrl):
-    imgData = requests.get(imgUrl).content
-    with open(dir_path + imgpath, 'wb') as handler:
-        handler.write(imgData)
-
-def set_desktop_background(filename):
-    subprocess.Popen(SCRIPT%filename, shell=True)
-    subprocess.check_call("killall Dock", shell=True)
-
-
 def main():
     sdUrl = getImage()
-    saveImgToDevice(sdUrl)
-    set_desktop_background(dir_path + imgpath)
+    saveAndSetBackground(sdUrl)
 
 
 if __name__ == '__main__':
