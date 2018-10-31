@@ -1,9 +1,7 @@
 import os
 import datetime
 import random
-import sqlite3
-import brightness
-from utils import saveAndSetBackground
+from utils import saveAndSetBackground, create_connection
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 database = dir_path + "/store.db"
@@ -19,7 +17,7 @@ def getImageForNow(pageNum, night):
     sql_night = '''SELECT url FROM page{0} WHERE score <= {1} ORDER BY score ASC'''.format(pageNum,set_score)
     sql_day = '''SELECT url FROM page{0} WHERE score > {1} ORDER BY score DESC'''.format(pageNum,set_score)
     try:
-        conn = brightness.create_connection(database)
+        conn = create_connection(database)
         with conn:
             cur = conn.cursor()
             if night:

@@ -7,6 +7,7 @@ import sqlite3
 import requests
 from bs4 import BeautifulSoup
 from requests.auth import HTTPBasicAuth
+from utils import create_connection
 
 SCRIPT = """/usr/bin/osascript<<END
 tell application "System Events"
@@ -21,13 +22,6 @@ suffix = '.png'
 dir_path = os.path.dirname(os.path.realpath(__file__))
 database = dir_path + "/store.db"
 
-def create_connection(db_file):
-    try:
-        conn = sqlite3.connect(db_file)
-        return conn
-    except Exception as e:
-        print(e)
-        exit(1)
 
 def randomTable(conn):
     with conn:

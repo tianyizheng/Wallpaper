@@ -1,0 +1,11 @@
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  wallpaper:
+    lang: python
+    handler: ./
+    image: tianyizheng/wallpaper:latest
+    environment: 
+      write_debug: true

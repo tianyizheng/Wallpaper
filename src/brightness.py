@@ -6,9 +6,9 @@ import math
 import numpy as np
 import requests
 import concurrent.futures
-import sqlite3
 import batchJob
 import simpleDesktop
+from utils import create_connection
 
 sdUrl = simpleDesktop.sdUrl
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -17,14 +17,6 @@ def usage():
     #need a better way to determine what the user wants to download
     print("Usage: python brightness.py 1")
     print("       python brightness.py all")
-
-def create_connection(db_file):
-    try:
-        conn = sqlite3.connect(db_file)
-        return conn
-    except Exception as e:
-        print(e)
-    return None
 
 def create_table(pageNum):
     sql = """CREATE TABLE IF NOT EXISTS page{0}(

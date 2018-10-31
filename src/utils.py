@@ -2,6 +2,7 @@ import os
 import random
 import subprocess
 import requests
+import sqlite3
 
 
 SCRIPT = """/usr/bin/osascript<<END
@@ -27,3 +28,11 @@ def set_desktop_background(filename):
 def saveAndSetBackground(imgUrl):
     saveImgToDevice(imgUrl)
     set_desktop_background(dir_path + imgpath)
+
+def create_connection(db_file):
+    try:
+        conn = sqlite3.connect(db_file)
+        return conn
+    except Exception as e:
+        print(e)
+    return None

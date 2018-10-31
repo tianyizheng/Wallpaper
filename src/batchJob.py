@@ -8,7 +8,6 @@ from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 
 import simpleDesktop
-
 destination = '-----your next cloud--------'
 suffix = '.png'
 
