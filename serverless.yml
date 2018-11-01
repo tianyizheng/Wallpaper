@@ -1,0 +1,15 @@
+service: tianyizheng-wallpaper
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: python2.7
+
+functions:
+  wallpaper:
+    handler: handler.handle
+    events:
+      - http:
+          path: wallpaper
+          method: get
