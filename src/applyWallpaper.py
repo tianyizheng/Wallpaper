@@ -5,7 +5,7 @@ from utils import saveAndSetBackground, create_connection
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 database = dir_path + "/store.db"
-set_score = 4500
+set_score = 4000
 
 def selectImage(imgList):
   length = len(imgList)
